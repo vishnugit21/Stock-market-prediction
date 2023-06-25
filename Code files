@@ -1,0 +1,32 @@
+#importing libraries
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import classification_report
+from sklearn.svm import SVR
+import pandas as pd
+import numpy as np
+import pandas_datareader.data as web
+import datetime as dt
+import matplotlib.pyplot as plt
+from sklearn.metrics import accuracy_score
+from google.colab import files files.upload()
+df1=pd.read_csv('AAPL (4).csv')
+df1
+df1.tail()
+df11 = df1[['Adj Close']]
+df11[['Adj Close']].tail()
+df11['prediction1'] = df11[['Adj Close']].shift(-15)
+print(df11)
+#Create a data set X and convert it into numpy array , which will be having actual values
+X1 = np.array(df11.drop(['prediction1'],1))
+#removing last 15 rows
+X1 = X1[:-15]
+print(X1)
+#Create a dataset y which will be having Predicted values and convert into numpy array
+y1 = np.array(df11['prediction1'])
+#remove last 15 rows
+y1 = y1[:-15]
+print(y1)
+# Spliting the data into train and test with 90 & 10 % respectively
+x1_train, x1_test, y1_train, y1_test = train_test_split(X1, y1, test_size=0.1)
+# SVM Model
+svr = SVR(kernel='rbf', C=1e3, gamma=0.1)
