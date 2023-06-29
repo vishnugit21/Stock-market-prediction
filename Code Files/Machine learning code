@@ -30,3 +30,22 @@ print(y1)
 x1_train, x1_test, y1_train, y1_test = train_test_split(X1, y1, test_size=0.1)
 # SVM Model
 svr = SVR(kernel='rbf', C=1e3, gamma=0.1)
+Straining the model svr.fit(x4 train, y4 train) 
+y4	red = svr.predict(x4_test) print(y4	red) 
+#Reliance 
+# The best possible score is 1.0 
+svm confidence4 = svr.score(x4 test, y4 test) print("svm confidence4:", svm confidence4) accuracy score4 = int(svm confidence4*100) print("accuracy_score4:”,accuracy_score4) 
+#This is the latest 15 days stock prices, we will use these values to predict next 15 days prices forecast4 = np.array(df44.drop(['prediction4'],1))[-15:] 
+print(forecast4) plt.plot(forecast4) 
+pit.title("Latest 30 days stock prices") plt.x1abe1('Days') 
+pit.y1abe1('Price') #Re1iance 
+#Predicted Values for next 15 days stock prices svm	rediction4 = svr.predict(forecast4) print(svm	rediction4) 
+pit.plot(svm	rediction4) 
+pit.title("Next 15 days stock prices of Reliance") pit.x1abel('Days') 
+plt.y1abe1('Price') 
+#plotting and comparing stock prices pit.subplot(1,2,1) 
+pit.plot(forecast4) 
+plt.title("Latest 30 days stock prices") pit.x1abe1('Days') 
+plt.y1abe1('Price') pit.subp1ot(1,2,2) plt.plot(svm	rediction4) 
+plt.title("Next 30 days stock prices") plt.x1abe1('Days') 
+plt.y1abe1('Price') 
