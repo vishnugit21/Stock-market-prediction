@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Welcome to Stock Market Prediction</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    #prediction-form {
+      margin-bottom: 20px;
+    }
+    #prediction-result {
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Stock Market Prediction</h1>
+
+  <form id="prediction-form">
+    <label for="stock-symbol">Stock Symbol:</label>
+    <input type="text" id="stock-symbol" placeholder="Enter stock symbol">
+    <button type="submit">Predict</button>
+  </form>
+
+  <div id="prediction-result"></div>
+
+  <script>
+    // JavaScript code
+    document.getElementById('prediction-form').addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      var stockSymbol = document.getElementById('stock-symbol').value;
+
+      // Send an AJAX request to the Python backend
+      var xhr = new XMLHttpRequest();
+      xhr.open('POST', '/predict', true);
+      xhr.setRequestHeader('Content-Type', 'application/json');
+
+      xhr.onreadystatechange = function() {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+          var predictionResult = JSON.parse(xhr.responseText);
+          displayPredictionResult(predictionResult);
+        }
+      };
+
+      xhr.send(JSON.stringify({ stockSymbol: stockSymbol }));
+    });
+
+    function displayPredictionResult(result) {
+      var predictionResultElement = document.getElementById('prediction-result');
+      predictionResultElement.innerHTML = 'Next day prediction: ' + result.prediction;
+    }
+  </script>
+
+  <!-- Python code -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script>
+    // Python Flask backend API endpoint
+    var backendUrl = 'http://localhost:5000';
+
+    // Python Flask API endpoint for prediction
+    var predictionUrl = backendUrl + '/predict';
+
+    // Function to fetch stock data and perform prediction
+    function predictStockPrice(stockSymbol) {
+      axios.post(predictionUrl, { stockSymbol: stockSymbol })
+        .then(function(response) {
+          var prediction = response.data.prediction;
+          displayPredictionResult(prediction);
+        })
+        .catch(function(error) {
+          console.error('Prediction request failed:', error);
+        });
+    }
+  </script>
+</body>
+</html>
